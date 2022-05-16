@@ -1,0 +1,1 @@
+aplikasi untuk enkripsi audio dan embed password pada gambar
