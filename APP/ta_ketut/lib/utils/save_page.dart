@@ -5,6 +5,8 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:path/path.dart';
+import 'package:ta_ketut/page/homepage.dart';
 
 class SavePage extends StatefulWidget {
   final String imgbyte;
@@ -52,7 +54,10 @@ class _SavePage extends State<SavePage> {
     final dirList = await _getExternalStoragePath();
     final path = dirList![0].path;
     final file = File('$path/Stego.png');
+
     print(file);
+    String filename = file.path.split('/').last;
+    print(filename);
 
     file.writeAsBytes(bytes).then((File _file) {});
   }
@@ -60,11 +65,15 @@ class _SavePage extends State<SavePage> {
   @override
   Widget build(BuildContext context) {
     requestStoragePermission();
-    Uint8List bytes = Base64Codec().decode(widget.imgbyte);
+    Uint8List bytes = const Base64Codec().decode(widget.imgbyte);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("The Steg Dog"),
+        title: const Text(
+          "Result Page",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFF2a4635),
       ),
       body: Column(
         children: <Widget>[
@@ -72,30 +81,45 @@ class _SavePage extends State<SavePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.all(12.0),
+                margin: const EdgeInsets.all(12.0),
                 height: 450.0,
                 width: 350.0,
                 child: Image.memory(bytes),
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Expanded(
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16.0),
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(16.0),
+                      primary: Colors.white,
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      _writeExternalStorage(bytes);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Berhasil menyimpan')));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Save Image',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500),
+                    ),
                   ),
-                  onPressed: () {
-                    _writeExternalStorage(bytes);
-                  },
-                  child: const Text('Save Image'),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

@@ -21,7 +21,7 @@ class EncodePage extends StatefulWidget {
 
 class _EncodePageState extends State<EncodePage> {
   bool _isGranted = true;
-  String filename = "steg";
+  String filename = "encrypt";
   late String _key;
   late String key;
   var _path;
@@ -194,11 +194,22 @@ class _EncodePageState extends State<EncodePage> {
             child: Column(
               children: [
                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 80),
                   margin: EdgeInsets.only(top: 18),
-                  child: RaisedButton.icon(
-                    onPressed: selectAudio,
-                    label: Text('Select Audio'),
-                    icon: Icon(Icons.audio_file_rounded),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
+                      onPressed: selectAudio,
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 53, 130, 84),
+                      ),
+                      label: Text(
+                        'Select Audio',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      icon: Icon(Icons.audio_file_rounded),
+                    ),
                   ),
                 ),
                 Container(
@@ -224,19 +235,32 @@ class _EncodePageState extends State<EncodePage> {
                   ),
                 ),
                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 80),
                   margin: EdgeInsets.only(top: 18),
-                  child: RaisedButton.icon(
-                      onPressed: () {
-                        getImage();
-                      },
-                      icon: Icon(Icons.image_rounded),
-                      label: Text('Select Image')),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          getImage();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 53, 130, 84),
+                        ),
+                        icon: Icon(Icons.image_rounded),
+                        label: Text(
+                          'Select Image',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )),
+                  ),
                 ),
                 Form(
                   key: _formKey,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 40,
                       vertical: 10,
                     ),
                     child: TextFormField(
@@ -258,25 +282,41 @@ class _EncodePageState extends State<EncodePage> {
                     ),
                   ),
                 ),
-                RaisedButton(
-                  onPressed: () async {
-                    if (_isGranted) {
-                      if (_formKey.currentState!.validate()) {
-                        Directory d = await getExternalVisibleDir;
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 60),
+                  height: 45,
+                  margin: EdgeInsets.only(top: 10),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_isGranted) {
+                        if (_formKey.currentState!.validate()) {
+                          Directory d = await getExternalVisibleDir;
 
-                        setState(() => _key = _mykeyController.text);
-                        setState(() => key = _key + _key);
+                          setState(() => _key = _mykeyController.text);
+                          setState(() => key = _key + _key);
 
-                        _encryptAndCreate(_path, d, filename, key);
-                        _upload_encrypt();
-                        // TODO submit
+                          _encryptAndCreate(_path, d, filename, key);
+                          _upload_encrypt();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Berhasil enkripsi audio')));
+                          // TODO submit
+                        }
+                      } else {
+                        print('no permission granted');
+                        requestStoragePermission();
                       }
-                    } else {
-                      print('no permission granted');
-                      requestStoragePermission();
-                    }
-                  },
-                  child: Text('Encrypt Audio'),
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 53, 130, 84),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    child: Text(
+                      'Encrypt Audio',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -301,30 +341,15 @@ _encryptAndCreate(Uint8List path, Directory d, filename, _mykey) async {
   }
 }
 
-_getNormalFile(Directory d, filename) async {
-  Uint8List encData = await _readData(d.path + '/$filename.aes');
-  // Uint8List encData = await _readData('/storage/emulated/0/MyEncFolder/demo.mp4.aes');
-  var plainData = await _decryptData(encData);
-  String p = await _writeData(plainData, d.path + '/$filename');
-  // String p = await _writeData(plainData, '/storage/emulated/0/MyEncFolder/demo.mp4');
-  print("file decrypted successfully: $p");
-}
-
 _encryptData(plainString, mykey) {
   print("Encrypting File...");
   print(mykey);
   var _mykey = enc.Key.fromUtf8(mykey);
   final encr = enc.Encrypter(enc.AES(_mykey));
-  final myIv = enc.IV.fromUtf8('ketutkusuma');
+  final myIv = enc.IV.fromUtf8('ketutkusuma91020');
   final encrypted = encr.encryptBytes(plainString, iv: myIv);
   // MyEncrypt.myEncrypter.encryptBytes(plainString, iv: MyEncrypt.myIv);
   return encrypted.bytes;
-}
-
-_decryptData(encData) {
-  print("File decryption in progress...");
-  enc.Encrypted en = enc.Encrypted(encData);
-  return MyEncrypt.myEncrypter.decryptBytes(en, iv: MyEncrypt.myIv);
 }
 
 Future<Uint8List> _readData(fileNameWithPath) async {
@@ -338,10 +363,4 @@ Future<String> _writeData(dataToWrite, fileNameWithPath) async {
   File f = File(fileNameWithPath);
   await f.writeAsBytes(dataToWrite);
   return f.absolute.toString();
-}
-
-class MyEncrypt {
-  static final myKey = enc.Key.fromUtf8('TechWithVPTechWithVPTechWithVP12');
-  static final myIv = enc.IV.fromUtf8("VivekPanchal1122");
-  static final myEncrypter = enc.Encrypter(enc.AES(myKey));
 }

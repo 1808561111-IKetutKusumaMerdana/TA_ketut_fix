@@ -28,7 +28,7 @@ class _DecodePageState extends State<DecodePage> {
   var key;
   var _key;
   String? filename;
-  String _hasildek = 'password disini';
+  String _hasildek = 'Here The Password Appear';
   String? _resultdecode;
   final TextEditingController _mykeyController = TextEditingController();
   final TextEditingController _filenameController = TextEditingController();
@@ -147,13 +147,22 @@ class _DecodePageState extends State<DecodePage> {
             child: Column(
               children: [
                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 80),
                   margin: EdgeInsets.only(top: 18),
-                  child: RaisedButton.icon(
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
                       onPressed: () {
                         getImage();
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 53, 130, 84),
+                      ),
                       icon: Icon(Icons.image_rounded),
-                      label: Text('Select Image')),
+                      label: Text('Select Image'),
+                    ),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 18),
@@ -177,16 +186,23 @@ class _DecodePageState extends State<DecodePage> {
                     ],
                   ),
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    _upload_d();
-                  },
-                  child: Text('Decode Image To Get Password'),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 80),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _upload_d();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 53, 130, 84),
+                    ),
+                    child: Text('Decode Image To Get Password'),
+                  ),
                 ),
                 Text(_hasildek),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                    horizontal: 40,
                     vertical: 10,
                   ),
                   child: TextFormField(
@@ -207,7 +223,7 @@ class _DecodePageState extends State<DecodePage> {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                    horizontal: 40,
                     vertical: 10,
                   ),
                   child: TextFormField(
@@ -258,6 +274,7 @@ class _DecodePageState extends State<DecodePage> {
                     ),
                     icon: const Icon(Icons.multitrack_audio_rounded),
                     elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 53, 130, 84),
                     highlightElevation: 0,
                   ),
                 ),
@@ -282,7 +299,7 @@ class _DecodePageState extends State<DecodePage> {
     print("File decryption in progress...");
     print(key);
     var mykey = enc.Key.fromUtf8(key);
-    final myIv = enc.IV.fromUtf8('ketutkusuma');
+    final myIv = enc.IV.fromUtf8('ketutkusuma91020');
     final decr = enc.Encrypted(encData);
     final dec = enc.Encrypter(enc.AES(mykey));
     final decrypted = dec.decryptBytes(decr, iv: myIv);

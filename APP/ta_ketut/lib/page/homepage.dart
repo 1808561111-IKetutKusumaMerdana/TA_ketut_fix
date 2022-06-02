@@ -34,9 +34,16 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black87,
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    // Container(
+                    //   child: Icon(
+                    //     Icons.phonelink_lock_outlined,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
                     Container(
-                      margin: const EdgeInsets.only(top: 200),
+                      // margin: const EdgeInsets.only(top: 200),
                       child: FloatingActionButton.extended(
                         heroTag: "btn1",
                         onPressed: () {
@@ -47,6 +54,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(fontSize: 20, letterSpacing: 4),
                         ),
                         icon: Icon(Icons.lock),
+                        backgroundColor: Color.fromARGB(255, 53, 130, 84),
                         elevation: 0,
                         highlightElevation: 0,
                       ),
@@ -63,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(fontSize: 20, letterSpacing: 4),
                         ),
                         icon: Icon(Icons.lock_open_rounded),
-                        backgroundColor: Colors.greenAccent[400],
+                        backgroundColor: Color.fromARGB(255, 0, 183, 94),
                         elevation: 0,
                         highlightElevation: 0,
                       ),
