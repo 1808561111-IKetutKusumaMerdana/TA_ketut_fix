@@ -2,13 +2,13 @@
 # encoding: utf-8
 
 import random
-import Euclidean
-import PrimalityTests
-import Modulo
-import ExtendedEuclidean
+from . import Euclidean
+from . import PrimalityTests
+from . import Modulo
+from . import ExtendedEuclidean
 import math
-import StringLibrary
-import TimeLibrary
+from . import StringLibrary
+from . import TimeLibrary
 
 
 # following miller-rabin test

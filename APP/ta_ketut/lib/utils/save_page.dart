@@ -95,9 +95,9 @@ class _SavePage extends State<SavePage> {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    style: TextButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(16.0),
-                      primary: Colors.white,
+                      primary: const Color.fromARGB(255, 53, 130, 84),
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {

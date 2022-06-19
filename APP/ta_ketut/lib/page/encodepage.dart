@@ -195,8 +195,8 @@ class _EncodePageState extends State<EncodePage> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 80),
-                  margin: EdgeInsets.only(top: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  margin: const EdgeInsets.only(top: 18),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ElevatedButton.icon(
@@ -204,16 +204,16 @@ class _EncodePageState extends State<EncodePage> {
                       style: ElevatedButton.styleFrom(
                         primary: const Color.fromARGB(255, 53, 130, 84),
                       ),
-                      label: Text(
+                      label: const Text(
                         'Select Audio',
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      icon: Icon(Icons.audio_file_rounded),
+                      icon: const Icon(Icons.audio_file_rounded),
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 18),
+                  margin: const EdgeInsets.only(top: 18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -221,7 +221,7 @@ class _EncodePageState extends State<EncodePage> {
                         alignment: Alignment.centerLeft,
                         child: Container(
                           child: _image == null
-                              ? Text(
+                              ? const Text(
                                   'No image selected.',
                                 )
                               : Image.file(
@@ -236,8 +236,8 @@ class _EncodePageState extends State<EncodePage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 80),
-                  margin: EdgeInsets.only(top: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  margin: const EdgeInsets.only(top: 18),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: ElevatedButton.icon(
@@ -247,8 +247,8 @@ class _EncodePageState extends State<EncodePage> {
                         style: ElevatedButton.styleFrom(
                           primary: const Color.fromARGB(255, 53, 130, 84),
                         ),
-                        icon: Icon(Icons.image_rounded),
-                        label: Text(
+                        icon: const Icon(Icons.image_rounded),
+                        label: const Text(
                           'Select Image',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -284,9 +284,9 @@ class _EncodePageState extends State<EncodePage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 60),
+                  padding: const EdgeInsets.symmetric(horizontal: 60),
                   height: 45,
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_isGranted) {
@@ -298,8 +298,9 @@ class _EncodePageState extends State<EncodePage> {
 
                           _encryptAndCreate(_path, d, filename, key);
                           _upload_encrypt();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Berhasil enkripsi audio')));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Berhasil enkripsi audio')));
                           // TODO submit
                         }
                       } else {
@@ -311,7 +312,7 @@ class _EncodePageState extends State<EncodePage> {
                         primary: const Color.fromARGB(255, 53, 130, 84),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
-                    child: Text(
+                    child: const Text(
                       'Encrypt Audio',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

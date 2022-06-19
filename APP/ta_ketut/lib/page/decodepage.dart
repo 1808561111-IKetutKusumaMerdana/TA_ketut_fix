@@ -287,12 +287,20 @@ class _DecodePageState extends State<DecodePage> {
   }
 
   _decryptAndCreate(Directory d, filename, key) async {
-    Uint8List encData = await _readData(d.path + '/$filename');
-    // Uint8List encData = await _readData('/storage/emulated/0/MyEncFolder/demo.mp4.aes');
-    var plainData = await _decryptData(encData, key);
-    String p = await _writeData(plainData, d.path + '/$filename.wav');
-    // String p = await _writeData(plainData, '/storage/emulated/0/MyEncFolder/demo.mp4');
-    print("file decrypted successfully: $p");
+    try {
+      Uint8List encData = await _readData(d.path + '/$filename');
+      // Uint8List encData = await _readData('/storage/emulated/0/MyEncFolder/demo.mp4.aes');
+      var plainData = await _decryptData(encData, key);
+      String p = await _writeData(plainData, d.path + '/$filename.wav');
+      // String p = await _writeData(plainData, '/storage/emulated/0/MyEncFolder/demo.mp4');
+      print("file decrypted successfully: $p");
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Berhasil deskripsi audio')));
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
   }
 
   _decryptData(encData, key) {

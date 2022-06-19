@@ -5,11 +5,8 @@ import base64
 import pytesseract as ps
 import sys
 
-sys.path.append('/Users/ketutkusuma/Desktop/TA_ketut-main/API/library')
-sys.path.append('/Users/ketutkusuma/Desktop/TA_ketut-main/API/utils')
-
-import SpreadSpectrum
-import RSALibrary
+from utils import SpreadSpectrum
+from library import RSALibrary
 app = Flask(__name__)
 
 
@@ -81,9 +78,13 @@ def encode_image():
     #         pixels[i, j] = (int(red_template_pix, 2), green_template.getpixel((i,j)), blue_template.getpixel((i,j)))
 
     # encoded_image.save("encoded_image.png")
-    with open('/Users/ketutkusuma/Desktop/TA_ketut-main/API/encoded_image.png', 'rb') as f:
+    with open('./encoded_image.png', 'rb') as f:
         imgbyte = base64.b64encode(f.read())
     return imgbyte,200
+
+    # with open('/Users/ketutkusuma/Desktop/TA_ketut-main/API/encoded_image.png', 'rb') as f:
+    #     imgbyte = base64.b64encode(f.read())
+    # return imgbyte,200
 
 @app.route("/decode",methods=['POST'])
 def decode_image():

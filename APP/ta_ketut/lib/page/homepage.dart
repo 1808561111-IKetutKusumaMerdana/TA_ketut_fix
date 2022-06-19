@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
           'Home Page',
           style: TextStyle(color: Colors.white),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Stack(
