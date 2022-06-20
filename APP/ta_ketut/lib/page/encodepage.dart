@@ -90,16 +90,21 @@ class _EncodePageState extends State<EncodePage> {
     if (_image == null) {
       print("No file chosen yet!");
     } else {
-      final bytes = Io.File(pickedFile.path).readAsBytesSync();
-      String img64 = base64Encode(bytes);
-      response = await dio.post('http://10.0.2.2:5000/encode',
-          data: {'text': _resultenc, 'img': img64}); //replace the URL
-      if (response.statusCode == 200) {
-        _base64 = response.data.toString();
-        print(_base64);
-        success();
-      } else {
-        print("Some Error Occurred!");
+      try {
+        final bytes = Io.File(pickedFile.path).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        response = await dio.post(
+            'https://ketutkusuma.pythonanywhere.com/encode',
+            data: {'text': _resultenc, 'img': img64}); //replace the URL
+        if (response.statusCode == 200) {
+          _base64 = response.data.toString();
+          print(_base64);
+          success();
+        } else {
+          print("Some Error Occurred!");
+        }
+      } catch (e) {
+        print(e);
       }
     }
   }
@@ -116,7 +121,8 @@ class _EncodePageState extends State<EncodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response = await dio.post('http://10.0.2.2:5000/encrypt',
+      response = await dio.post(
+          'https://ketutkusuma.pythonanywhere.com/encrypt',
           data: {'text': _plaintext}); //replace the URL
       if (response.statusCode == 200) {
         var _encrypted = response.data.toString();

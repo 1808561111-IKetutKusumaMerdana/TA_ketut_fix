@@ -46,7 +46,7 @@ def encode_image(message):
     i = 0
     j = 0
     
-    path = r'/Users/ketutkusuma/Desktop/TA_ketut-main/API/image_toencode.png'
+    path = r'./image_toencode.png'
     grap = cv2.imread(path)
     
     leng_image = len(grap)
@@ -241,7 +241,7 @@ def encode_image(message):
 
 
 def decode_image():
-    path = r'/Users/ketutkusuma/Desktop/TA_ketut-main/API/image_todecode.png'
+    path = r'./image_todecode.png'
     grap = cv2.imread(path)
 
     row_image = len(grap)

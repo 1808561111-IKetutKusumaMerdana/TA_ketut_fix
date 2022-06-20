@@ -69,22 +69,27 @@ class _DecodePageState extends State<DecodePage> {
     if (_image == null) {
       print("No file chosen yet!");
     } else {
-      final bytes = Io.File(pickedFile.path).readAsBytesSync();
-      String img64 = base64Encode(bytes);
-      response = await dio.post('http://10.0.2.2:5000/decode',
-          data: {'img': img64}); //replace the URL
-      if (response.statusCode == 200) {
-        _base64 = response.data.toString();
-        print('base64 :');
-        print(_base64);
-        _resultdecode = _base64;
-        setState(() {
+      try {
+        final bytes = Io.File(pickedFile.path).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        response = await dio.post(
+            'https://ketutkusuma.pythonanywhere.com/decode',
+            data: {'img': img64}); //replace the URL
+        if (response.statusCode == 200) {
+          _base64 = response.data.toString();
+          print('base64 :');
+          print(_base64);
           _resultdecode = _base64;
-        });
-        _upload_decrypt(_resultdecode);
-        // success();
-      } else {
-        print("Some Error Occurred!");
+          setState(() {
+            _resultdecode = _base64;
+          });
+          _upload_decrypt(_resultdecode);
+          // success();
+        } else {
+          print("Some Error Occurred!");
+        }
+      } catch (e) {
+        print(e);
       }
     }
   }
@@ -100,7 +105,8 @@ class _DecodePageState extends State<DecodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response = await dio.post('http://10.0.2.2:5000/decrypt',
+      response = await dio.post(
+          'https://ketutkusuma.pythonanywhere.com/decrypt',
           data: {'text': _ciphertext}); //replace the URL
       if (response.statusCode == 200) {
         _decrypted = response.data.toString();
