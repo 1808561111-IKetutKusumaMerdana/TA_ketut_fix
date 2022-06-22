@@ -76,7 +76,7 @@ class _EncodePageState extends State<EncodePage> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         //timeInSecForIos: 3,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Color.fromARGB(255, 53, 130, 84),
         textColor: Colors.white,
         fontSize: 16.0);
     print("ABOUT TO");
@@ -93,9 +93,10 @@ class _EncodePageState extends State<EncodePage> {
       try {
         final bytes = Io.File(pickedFile.path).readAsBytesSync();
         String img64 = base64Encode(bytes);
-        response = await dio.post(
-            'https://ketutkusuma.pythonanywhere.com/encode',
-            data: {'text': _resultenc, 'img': img64}); //replace the URL
+        response =
+            await dio.post('https://ketutkusuma.pythonanywhere.com/encode',
+                // 'http://10.0.2.2:5000/encode',
+                data: {'text': _resultenc, 'img': img64}); //replace the URL
         if (response.statusCode == 200) {
           _base64 = response.data.toString();
           print(_base64);
@@ -121,9 +122,10 @@ class _EncodePageState extends State<EncodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response = await dio.post(
-          'https://ketutkusuma.pythonanywhere.com/encrypt',
-          data: {'text': _plaintext}); //replace the URL
+      response =
+          await dio.post('https://ketutkusuma.pythonanywhere.com/encrypt',
+              // 'http://10.0.2.2:5000/encrypt',
+              data: {'text': _plaintext}); //replace the URL
       if (response.statusCode == 200) {
         var _encrypted = response.data.toString();
         print('encrypted pass: ');

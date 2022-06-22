@@ -72,9 +72,10 @@ class _DecodePageState extends State<DecodePage> {
       try {
         final bytes = Io.File(pickedFile.path).readAsBytesSync();
         String img64 = base64Encode(bytes);
-        response = await dio.post(
-            'https://ketutkusuma.pythonanywhere.com/decode',
-            data: {'img': img64}); //replace the URL
+        response =
+            await dio.post('https://ketutkusuma.pythonanywhere.com/decode',
+                // 'http://10.0.2.2:5000/decode',
+                data: {'img': img64}); //replace the URL
         if (response.statusCode == 200) {
           _base64 = response.data.toString();
           print('base64 :');
@@ -105,9 +106,10 @@ class _DecodePageState extends State<DecodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response = await dio.post(
-          'https://ketutkusuma.pythonanywhere.com/decrypt',
-          data: {'text': _ciphertext}); //replace the URL
+      response =
+          await dio.post('https://ketutkusuma.pythonanywhere.com/decrypt',
+              // 'http://10.0.2.2:5000/decrypt',
+              data: {'text': _ciphertext}); //replace the URL
       if (response.statusCode == 200) {
         _decrypted = response.data.toString();
         print(_decrypted);
