@@ -153,6 +153,7 @@ class _DecodePageState extends State<DecodePage> {
         child: SafeArea(
           child: Container(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -176,7 +177,7 @@ class _DecodePageState extends State<DecodePage> {
                   margin: EdgeInsets.only(top: 18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
+                    children: [
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(

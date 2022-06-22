@@ -338,13 +338,17 @@ class _EncodePageState extends State<EncodePage> {
 
 _encryptAndCreate(Uint8List path, Directory d, filename, _mykey) async {
   if (path != null) {
-    print("Data Loading. . . ");
-    var resp = path;
+    try {
+      print("Data Loading. . . ");
+      var resp = path;
 
-    var encResult = _encryptData(resp, _mykey);
-    String p = await _writeData(encResult, d.path + '/$filename.aes');
-    // String p = await _writeData(encResult, '/storage/emulated/0/MyEncFolder/demo.mp4.aes');
-    print("file encrypted successfully: $p");
+      var encResult = _encryptData(resp, _mykey);
+      String p = await _writeData(encResult, d.path + '/$filename.aes');
+      // String p = await _writeData(encResult, '/storage/emulated/0/MyEncFolder/demo.mp4.aes');
+      print("file encrypted successfully: $p");
+    } catch (e) {
+      print(e);
+    }
   } else {
     print("Null file");
   }
