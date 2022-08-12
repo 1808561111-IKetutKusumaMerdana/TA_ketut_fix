@@ -5,14 +5,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 
 class FilePickerService {
-  Future<Uint8List?> audioFilePickAsBytes() async {
+  Future<File?> audioFilePickAsBytes() async {
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['wav', 'aes']);
 
     if (result != null) {
       File file = File(result.files.single.path!);
+
       print(file.readAsString());
-      return file.readAsBytes();
+      return file;
     } else {
       return null;
     }

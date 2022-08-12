@@ -34,18 +34,12 @@ class _DecodePageState extends State<DecodePage> {
   final TextEditingController _filenameController = TextEditingController();
 
   Future<Directory> get getExternalVisibleDir async {
-    if (await Directory(
-            '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download')
-        .exists()) {
-      final externalDir = Directory(
-          '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download');
+    if (await Directory('/storage/emulated/0/Download').exists()) {
+      final externalDir = Directory('/storage/emulated/0/Download');
       return externalDir;
     } else {
-      await Directory(
-              '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download')
-          .create(recursive: true);
-      final externalDir = Directory(
-          '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download');
+      await Directory('/storage/emulated/0/Download').create(recursive: true);
+      final externalDir = Directory('/storage/emulated/0/Download');
       return externalDir;
     }
   }
@@ -72,10 +66,10 @@ class _DecodePageState extends State<DecodePage> {
       try {
         final bytes = Io.File(pickedFile.path).readAsBytesSync();
         String img64 = base64Encode(bytes);
-        response =
-            await dio.post('https://ketutkusuma.pythonanywhere.com/decode',
-                // 'http://10.0.2.2:5000/decode',
-                data: {'img': img64}); //replace the URL
+        response = await dio.post(
+            // 'https://ketutkusuma.pythonanywhere.com/decode',
+            'http://10.0.2.2:5000/decode',
+            data: {'img': img64}); //replace the URL
         if (response.statusCode == 200) {
           _base64 = response.data.toString();
           print('base64 :');
@@ -106,10 +100,10 @@ class _DecodePageState extends State<DecodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response =
-          await dio.post('https://ketutkusuma.pythonanywhere.com/decrypt',
-              // 'http://10.0.2.2:5000/decrypt',
-              data: {'text': _ciphertext}); //replace the URL
+      response = await dio.post(
+          // 'https://ketutkusuma.pythonanywhere.com/decrypt',
+          'http://10.0.2.2:5000/decrypt',
+          data: {'text': _ciphertext}); //replace the URL
       if (response.statusCode == 200) {
         _decrypted = response.data.toString();
         print(_decrypted);

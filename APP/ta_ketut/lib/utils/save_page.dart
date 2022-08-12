@@ -51,13 +51,15 @@ class _SavePage extends State<SavePage> {
   }
 
   Future _writeExternalStorage(Uint8List bytes) async {
-    final dirList = await _getExternalStoragePath();
-    final path = dirList![0].path;
-    final file = File('$path/Stego.png');
+    // final dirList = await _getExternalStoragePath();
+    // final path = dirList![0].path;
+    final path = await getExternalVisibleDir;
+    // final file = File('$path/Stego.png');
+    final file = File('${path.path}/Stego.png');
 
-    print(file);
-    String filename = file.path.split('/').last;
-    print(filename);
+    // print(file);
+    // String filename = file.path.split('/').last;
+    // print(filename);
 
     file.writeAsBytes(bytes).then((File _file) {});
   }
@@ -76,10 +78,10 @@ class _SavePage extends State<SavePage> {
         backgroundColor: const Color(0xFF2a4635),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
+            children: [
               Container(
                 margin: const EdgeInsets.all(12.0),
                 height: 450.0,

@@ -39,20 +39,15 @@ class _EncodePageState extends State<EncodePage> {
   var secret;
   String? _resultenc;
   final _formKey = GlobalKey<FormState>();
+  var filePath = 'filepath';
 
   Future<Directory> get getExternalVisibleDir async {
-    if (await Directory(
-            '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download')
-        .exists()) {
-      final externalDir = Directory(
-          '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download');
+    if (await Directory('/storage/emulated/0/Download').exists()) {
+      final externalDir = Directory('/storage/emulated/0/Download');
       return externalDir;
     } else {
-      await Directory(
-              '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download')
-          .create(recursive: true);
-      final externalDir = Directory(
-          '/storage/emulated/0/Android/data/com.example.ta_ketut/files/Download');
+      await Directory('/storage/emulated/0/Download').create(recursive: true);
+      final externalDir = Directory('/storage/emulated/0/Download');
       return externalDir;
     }
   }
@@ -93,10 +88,10 @@ class _EncodePageState extends State<EncodePage> {
       try {
         final bytes = Io.File(pickedFile.path).readAsBytesSync();
         String img64 = base64Encode(bytes);
-        response =
-            await dio.post('https://ketutkusuma.pythonanywhere.com/encode',
-                // 'http://10.0.2.2:5000/encode',
-                data: {'text': _resultenc, 'img': img64}); //replace the URL
+        response = await dio.post(
+            // 'https://ketutkusuma.pythonanywhere.com/encode',
+            'http://10.0.2.2:5000/encode',
+            data: {'text': _resultenc, 'img': img64}); //replace the URL
         if (response.statusCode == 200) {
           _base64 = response.data.toString();
           print(_base64);
@@ -122,10 +117,10 @@ class _EncodePageState extends State<EncodePage> {
     } else {
       // final bytes = Io.File(pickedFile.path).readAsBytesSync();
       // String img64 = base64Encode(bytes);
-      response =
-          await dio.post('https://ketutkusuma.pythonanywhere.com/encrypt',
-              // 'http://10.0.2.2:5000/encrypt',
-              data: {'text': _plaintext}); //replace the URL
+      response = await dio.post(
+          // 'https://ketutkusuma.pythonanywhere.com/encrypt',
+          'http://10.0.2.2:5000/encrypt',
+          data: {'text': _plaintext}); //replace the URL
       if (response.statusCode == 200) {
         var _encrypted = response.data.toString();
         print('encrypted pass: ');
@@ -143,12 +138,14 @@ class _EncodePageState extends State<EncodePage> {
   }
 
   void selectAudio() async {
-    var audioData = await _filePickerService.audioFilePickAsBytes();
-    print(audioData);
+    var data = await _filePickerService.audioFilePickAsBytes();
+    var readBytes = await data!.readAsBytes();
+    // print(audioData);
 
-    if (audioData != null) {
+    if (data != null) {
       setState(() {
-        _path = audioData;
+        _path = readBytes;
+        filePath = data.path;
       });
     } else {
       setState(() {});
@@ -201,6 +198,7 @@ class _EncodePageState extends State<EncodePage> {
           child: Center(
             child: Column(
               children: [
+                Text(filePath),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.symmetric(horizontal: 80),
